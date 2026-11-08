@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TikTok Live - Đang chuyển hướng...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tiktok-pink: #FE2C55;
+            --tiktok-cyan: #25F4EE;
+            --bg-color: #0b0c10;
+            --card-bg: rgba(22, 24, 35, 0.72);
+            --border-color: rgba(255, 255, 255, 0.09);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.65);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng ánh sáng TikTok chuyển động nền */
+        .ambient-glow {
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.28;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+        .glow-cyan {
+            background: var(--tiktok-cyan);
+            top: -50px;
+            left: -50px;
+        }
+        .glow-pink {
+            background: var(--tiktok-pink);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -4s;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 30px) scale(1.15); }
+            100% { transform: translate(-30px, 50px) scale(0.95); }
+        }
+
+        /* Thẻ trung tâm Glassmorphism cao cấp */
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 36px 26px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Logo TikTok hiệu ứng tách màu 3D */
+        .logo-wrapper {
+            position: relative;
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tiktok-icon {
+            width: 36px;
+            height: 36px;
+            filter: drop-shadow(-2px -2px 0px rgba(37, 244, 238, 0.8))
+                    drop-shadow(2px 2px 0px rgba(254, 44, 85, 0.8));
+        }
+
+        /* Badge LIVE nhấp nháy */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(254, 44, 85, 0.14);
+            border: 1px solid rgba(254, 44, 85, 0.4);
+            color: #ff3b68;
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: #fe2c55;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #fe2c55;
+            animation: pulseDot 1.4s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.75); }
+        }
+
+        h1 {
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* Sóng âm thanh livestream động */
+        .soundwave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 24px;
+            margin-bottom: 22px;
+        }
+
+        .bar {
+            width: 3.5px;
+            background: linear-gradient(180deg, var(--tiktok-cyan), var(--tiktok-pink));
+            border-radius: 4px;
+            animation: wave 1s ease-in-out infinite alternate;
+        }
+        .bar:nth-child(1) { height: 10px; animation-delay: 0.1s; }
+        .bar:nth-child(2) { height: 18px; animation-delay: 0.3s; }
+        .bar:nth-child(3) { height: 24px; animation-delay: 0.2s; }
+        .bar:nth-child(4) { height: 14px; animation-delay: 0.4s; }
+        .bar:nth-child(5) { height: 8px;  animation-delay: 0.15s; }
+
+        @keyframes wave {
+            0% { transform: scaleY(0.4); opacity: 0.5; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        /* Thanh tiến trình tự động mở */
+        .progress-box {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--tiktok-cyan), var(--tiktok-pink));
+            border-radius: 10px;
+            animation: progressAnim 1.4s ease-out forwards;
+        }
+
+        @keyframes progressAnim {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Nút bấm CTA */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FE2C55 0%, #E60049 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 24px rgba(254, 44, 85, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 30px rgba(254, 44, 85, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 26px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* Trạng thái lỗi */
+        .error-state {
+            display: none;
+            color: #ff5c77;
+            font-size: 14px;
+            background: rgba(255, 77, 106, 0.1);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 77, 106, 0.25);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow glow-cyan"></div>
+    <div class="ambient-glow glow-pink"></div>
+
+    <div class="card">
+        <!-- Logo TikTok -->
+        <div class="logo-wrapper">
+            <svg class="tiktok-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.89 2.892 2.897 2.897 0 0 1-2.897-2.892 2.896 2.896 0 0 1 2.897-2.893c.334 0 .653.056.95.158V9.45a6.305 6.305 0 0 0-.95-.073 6.34 6.34 0 0 0-6.337 6.342A6.34 6.34 0 0 0 9.484 22a6.341 6.341 0 0 0 6.34-6.342V8.98a8.212 8.212 0 0 0 4.765 1.503V7.04a4.77 4.77 0 0 1-1-.354z" fill="#FFFFFF"/>
+            </svg>
+        </div>
+
+        <!-- LIVE Badge -->
+        <div class="live-badge" id="liveBadge">
+            <span class="live-dot"></span>
+            <span>Trực Tiếp</span>
+        </div>
+
+        <h1 id="titleText">Đang mở TikTok Live...</h1>
+        <p class="subtitle" id="subText">Trình duyệt đang tự động chuyển hướng bạn đến phòng livestream.</p>
+
+        <!-- Sóng âm thanh động -->
+        <div class="soundwave" id="soundWave">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <!-- Thanh progress tự động chuyển tiếp -->
+        <div class="progress-box" id="progressBox">
+            <div class="progress-bar"></div>
+        </div>
+
+        <!-- Nhóm nút bấm điều hướng -->
+        <div class="btn-group" id="btnGroup" style="display: none;">
+            <a href="#" class="btn btn-primary" id="btnApp">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.89 2.892 2.897 2.897 0 0 1-2.897-2.892 2.896 2.896 0 0 1 2.897-2.893c.334 0 .653.056.95.158V9.45a6.305 6.305 0 0 0-.95-.073 6.34 6.34 0 0 0-6.337 6.342A6.34 6.34 0 0 0 9.484 22a6.341 6.341 0 0 0 6.34-6.342V8.98a8.212 8.212 0 0 0 4.765 1.503V7.04a4.77 4.77 0 0 1-1-.354z"/>
+                </svg>
+                🚀 MỞ PHÒNG LIVE (APP TIKTOK)
+            </a>
+            <a href="#" class="btn btn-secondary" id="btnAppFallback">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                </svg>
+                📱 MỞ BẰNG APP (DỰ PHÒNG)
+            </a>
+            <button class="btn btn-secondary" id="btnCopy" style="background: rgba(255, 255, 255, 0.08); border: 1px dashed rgba(255, 255, 255, 0.2); cursor: pointer; color: #fff;">
+                📋 SAO CHÉP ROOM ID
+            </button>
+        </div>
+
+        <div class="error-state" id="errorBox">
+            ⚠️ Không tìm thấy thông tin phòng livestream. Vui lòng kiểm tra lại liên kết!
+        </div>
+
+        <div class="footer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+            </svg>
+            Chuyển hướng bảo mật • TikTok Live
+        </div>
+    </div>
+
+    <script>
+        function decodeToken(token) {
+            try {
+                if (!token) return null;
+                token = token.replace(/^[?#=]/, "").split("&")[0].split("=").pop().trim();
+                if (token.endsWith("=")) token = token.slice(0, -1);
+
+                // 1. Nếu đã là chuỗi số ID phòng (15-22 số) -> Trả về ngay lập tức
+                if (/^\d{15,22}$/.test(token)) {
+                    return token;
+                }
+
+                // 2. Nếu là token mã hóa Base62 từ JunB -> Giải mã ra roomId
+                const base62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                let o = 0x0n;
+                for (let i = 0; i < token.length; i++) {
+                    const idx = base62.indexOf(token[i]);
+                    if (idx === -1) return null;
+                    o = 0x3en * o + BigInt(idx);
+                }
+
+                o -= 944245n;
+                const res = o.toString().slice(1).split("").reverse().join("");
+                const firstChar = res[0];
+                const n = res.slice(1);
+                const numE = Number(firstChar);
+
+                if (isNaN(numE) || numE < 0 || numE >= n.length) return null;
+                const finalRoomId = n.slice(0, n.length - numE);
+                return /^\d{15,22}$/.test(finalRoomId) ? finalRoomId : null;
+            } catch (err) {
+                return null;
+            }
+        }
+
+        (function init() {
+            let rawQuery = window.location.search || window.location.hash;
+            if (!rawQuery && window.location.href.includes("=")) {
+                rawQuery = window.location.href.split("=").pop();
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let token = urlParams.get("m") || urlParams.get("id") || urlParams.get("token") || urlParams.get("room_id");
+            if (!token && rawQuery) {
+                token = rawQuery.replace(/^[?#=]/, "").split("&")[0];
+            }
+
+            const roomId = decodeToken(token);
+
+            const titleText = document.getElementById("titleText");
+            const subText = document.getElementById("subText");
+            const soundWave = document.getElementById("soundWave");
+            const progressBox = document.getElementById("progressBox");
+            const btnGroup = document.getElementById("btnGroup");
+            const btnApp = document.getElementById("btnApp");
+            const btnAppFallback = document.getElementById("btnAppFallback");
+            const btnCopy = document.getElementById("btnCopy");
+            const errorBox = document.getElementById("errorBox");
+
+            if (!roomId) {
+                titleText.innerText = "Liên kết không hợp lệ";
+                subText.style.display = "none";
+                soundWave.style.display = "none";
+                progressBox.style.display = "none";
+                errorBox.style.display = "block";
+                return;
+            }
+
+            // Nhận diện nền tảng thiết bị
+            const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+            const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            const isAndroid = /android/i.test(ua);
+
+            // Cấu hình chuẩn Deeplink mở trực tiếp App TikTok vào ID Phòng (Room ID)
+            const iosDeeplink = `snssdk1233://live?room_id=${roomId}`;
+            const androidScheme = `snssdk1180://live?room_id=${roomId}`;
+            const universalAppDeeplink = `tiktok://live?room_id=${roomId}`;
+
+            const primaryDeeplink = isIOS ? iosDeeplink : androidScheme;
+
+            // Gán link cho các nút bấm mở App
+            btnApp.href = primaryDeeplink;
+            btnAppFallback.href = universalAppDeeplink;
+
+            // Xử lý nút Copy ID
+            if (btnCopy) {
+                btnCopy.addEventListener("click", () => {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(roomId).then(() => {
+                            btnCopy.innerText = `✅ Đã copy ID: ${roomId}`;
+                            setTimeout(() => { btnCopy.innerText = "📋 SAO CHÉP ROOM ID"; }, 2000);
+                        });
+                    } else {
+                        const ta = document.createElement("textarea");
+                        ta.value = roomId;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(ta);
+                        btnCopy.innerText = `✅ Đã copy ID: ${roomId}`;
+                        setTimeout(() => { btnCopy.innerText = "📋 SAO CHÉP ROOM ID"; }, 2000);
+                    }
+                });
+            }
+
+            // 1. Tự động kích hoạt mở App TikTok vào ID phòng ngay lập tức
+            try {
+                window.location.href = primaryDeeplink;
+                if (isIOS) {
+                    setTimeout(() => {
+                        window.location.href = universalAppDeeplink;
+                    }, 400);
+                }
+            } catch (e) {}
+
+            // 2. Sau 600ms hiện nút bấm thủ công nếu trình duyệt Telegram chặn tự mở
+            setTimeout(() => {
+                soundWave.style.display = "none";
+                progressBox.style.display = "none";
+                btnGroup.style.display = "flex";
+                titleText.innerText = "Tham gia Livestream";
+                subText.innerText = `ID Phòng: ${roomId}\nNhấn nút bên dưới để mở trực tiếp trong ứng dụng TikTok:`;
+            }, 600);
+        })();
+    </script>
+</body>
+</html>
